@@ -11,7 +11,19 @@ config_version=4
 [application]
 
 config/name="CatInfoManageSystem"
+run/low_processor_mode=true
+run/delta_sync_after_draw=true
 config/icon="res://icon.png"
+
+[autoload]
+
+GlobalVar="*res://GlobalVar.tscn"
+
+[display]
+
+window/dpi/allow_hidpi=true
+window/vsync/vsync_via_compositor=true
+window/stretch/aspect="keep"
 
 [physics]
 
