@@ -1,0 +1,137 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://MiSans/MiSans-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://signinPage/signinPage.gd" type="Script" id=2]
+[ext_resource path="res://MiSans/MiSans-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://MiSans/MiSans-Heavy.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://MiSans/MiSans-Normal.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=5]
+size = 40
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 40
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 35
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 40
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 40
+font_data = ExtResource( 4 )
+
+[node name="SigninPage" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -2.0
+script = ExtResource( 2 )
+
+[node name="Message" type="Label" parent="."]
+margin_right = 1022.0
+margin_bottom = 54.0
+custom_fonts/font = SubResource( 5 )
+text = "请创建你的账户"
+align = 1
+valign = 1
+
+[node name="EnterField" type="VBoxContainer" parent="."]
+margin_top = 58.0
+margin_right = 1022.0
+margin_bottom = 170.0
+
+[node name="User" type="HBoxContainer" parent="EnterField"]
+margin_right = 1022.0
+margin_bottom = 57.0
+
+[node name="username" type="Label" parent="EnterField/User"]
+margin_right = 407.0
+margin_bottom = 57.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 3 )
+text = "用户名"
+align = 1
+valign = 1
+
+[node name="UserName" type="LineEdit" parent="EnterField/User"]
+margin_left = 411.0
+margin_right = 1022.0
+margin_bottom = 57.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+custom_fonts/font = SubResource( 2 )
+clear_button_enabled = true
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Pass" type="HBoxContainer" parent="EnterField"]
+margin_top = 61.0
+margin_right = 1022.0
+margin_bottom = 118.0
+
+[node name="password" type="Label" parent="EnterField/Pass"]
+margin_right = 407.0
+margin_bottom = 57.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+text = "密码"
+align = 1
+valign = 1
+
+[node name="PassWord" type="LineEdit" parent="EnterField/Pass"]
+margin_left = 411.0
+margin_right = 1022.0
+margin_bottom = 57.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+custom_fonts/font = SubResource( 2 )
+secret = true
+clear_button_enabled = true
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_top = 174.0
+margin_right = 1022.0
+margin_bottom = 234.0
+
+[node name="ConfirmButton" type="Button" parent="Buttons"]
+margin_right = 387.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 6 )
+text = "CONFIRM"
+
+[node name="Control" type="Control" parent="Buttons"]
+margin_left = 391.0
+margin_right = 630.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.62
+
+[node name="BackButton" type="Button" parent="Buttons"]
+margin_left = 634.0
+margin_right = 1022.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 7 )
+text = "BACK"
+
+[connection signal="resized" from="." to="." method="_on_SigninPage_resized"]
+[connection signal="pressed" from="Buttons/ConfirmButton" to="." method="_on_ConfirmButton_pressed"]
+[connection signal="pressed" from="Buttons/BackButton" to="." method="_on_BackButton_pressed"]

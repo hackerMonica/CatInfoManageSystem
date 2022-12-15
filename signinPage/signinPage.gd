@@ -1,7 +1,7 @@
 extends Control
-signal confirmAccount
-signal signinAccount
-#y-ratio
+signal signinConfirm
+signal signinBack
+# Declare member variables here. Examples:
 var mess_y=0.25
 var grid_y=0.5
 var but_y=0.8
@@ -21,29 +21,25 @@ func resize():
 	$EnterField/User.add_constant_override("separation",0.1*screen_size.x)
 	$EnterField/Pass.add_constant_override("separation",0.1*screen_size.x)
 	$EnterField.add_constant_override("separation",0.06*screen_size.y)
-#func _process(delta):
-#	resize()
 
-
-func login_callback(message: String):
+func backend_callback(message: String):
 	if message == "passed":
-		emit_signal("confirmAccount")
+		emit_signal("signinConfirm")
 	elif message == "denied":
 		print("Login failed")
 	else:
 		print("ERROR: unexpected")
 
-
 func _on_ConfirmButton_pressed():
 	GlobalVar.userName = $EnterField/User/UserName.text
 	GlobalVar.passWord = $EnterField/Pass/PassWord.text
-	GlobalVar.backend_login()
-	
+	GlobalVar.backend_signup()
+#	emit_signal("signinConfirm")
 
 
-func _on_SigninButton_pressed():
-	emit_signal("signinAccount")
+func _on_BackButton_pressed():
+	emit_signal("signinBack")
 
 
-func _on_loginPage_resized():
+func _on_SigninPage_resized():
 	resize()
