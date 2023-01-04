@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://MiSans/MiSans-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://signinPage/SexSelect.gd" type="Script" id=1]
 [ext_resource path="res://signinPage/signinPage.gd" type="Script" id=2]
 [ext_resource path="res://MiSans/MiSans-Regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://MiSans/MiSans-Heavy.ttf" type="DynamicFontData" id=4]
@@ -10,30 +10,37 @@
 size = 40
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 40
+[sub_resource type="DynamicFont" id=8]
+size = 35
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=2]
+size = 26
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=9]
 size = 35
-font_data = ExtResource( 1 )
+font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=4]
-size = 40
+size = 35
 font_data = ExtResource( 3 )
 
+[sub_resource type="DynamicFont" id=10]
+size = 35
+font_data = ExtResource( 5 )
+
 [sub_resource type="DynamicFont" id=6]
-size = 40
+size = 35
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=7]
-size = 40
+size = 35
 font_data = ExtResource( 4 )
 
 [node name="SigninPage" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -2.0
 script = ExtResource( 2 )
 
 [node name="Message" type="Label" parent="."]
@@ -47,26 +54,26 @@ valign = 1
 [node name="EnterField" type="VBoxContainer" parent="."]
 margin_top = 58.0
 margin_right = 1022.0
-margin_bottom = 170.0
+margin_bottom = 295.0
 
-[node name="User" type="HBoxContainer" parent="EnterField"]
+[node name="Account" type="HBoxContainer" parent="EnterField"]
 margin_right = 1022.0
-margin_bottom = 57.0
+margin_bottom = 47.0
 
-[node name="username" type="Label" parent="EnterField/User"]
+[node name="useraccount" type="Label" parent="EnterField/Account"]
 margin_right = 407.0
-margin_bottom = 57.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 3 )
-text = "用户名"
+custom_fonts/font = SubResource( 8 )
+text = "账号"
 align = 1
 valign = 1
 
-[node name="UserName" type="LineEdit" parent="EnterField/User"]
+[node name="UserAccount" type="LineEdit" parent="EnterField/Account"]
 margin_left = 411.0
 margin_right = 1022.0
-margin_bottom = 57.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.5
 custom_fonts/font = SubResource( 2 )
@@ -75,16 +82,16 @@ caret_blink = true
 caret_blink_speed = 0.5
 
 [node name="Pass" type="HBoxContainer" parent="EnterField"]
-margin_top = 61.0
+margin_top = 51.0
 margin_right = 1022.0
-margin_bottom = 118.0
+margin_bottom = 98.0
 
 [node name="password" type="Label" parent="EnterField/Pass"]
 margin_right = 407.0
-margin_bottom = 57.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 9 )
 text = "密码"
 align = 1
 valign = 1
@@ -92,7 +99,7 @@ valign = 1
 [node name="PassWord" type="LineEdit" parent="EnterField/Pass"]
 margin_left = 411.0
 margin_right = 1022.0
-margin_bottom = 57.0
+margin_bottom = 47.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
@@ -102,10 +109,91 @@ clear_button_enabled = true
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="Buttons" type="HBoxContainer" parent="."]
-margin_top = 174.0
+[node name="Pass2" type="HBoxContainer" parent="EnterField"]
+margin_top = 102.0
 margin_right = 1022.0
-margin_bottom = 234.0
+margin_bottom = 149.0
+
+[node name="password" type="Label" parent="EnterField/Pass2"]
+margin_right = 407.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 4 )
+text = "确认密码"
+align = 1
+valign = 1
+
+[node name="PassWord" type="LineEdit" parent="EnterField/Pass2"]
+margin_left = 411.0
+margin_right = 1022.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+custom_fonts/font = SubResource( 2 )
+secret = true
+clear_button_enabled = true
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Name" type="HBoxContainer" parent="EnterField"]
+margin_top = 153.0
+margin_right = 1022.0
+margin_bottom = 200.0
+
+[node name="username" type="Label" parent="EnterField/Name"]
+margin_right = 407.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 10 )
+text = "昵称"
+align = 1
+valign = 1
+
+[node name="UserName" type="LineEdit" parent="EnterField/Name"]
+margin_left = 411.0
+margin_right = 1022.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+custom_fonts/font = SubResource( 2 )
+clear_button_enabled = true
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="Sex" type="HBoxContainer" parent="EnterField"]
+margin_top = 204.0
+margin_right = 1022.0
+margin_bottom = 251.0
+
+[node name="sex" type="Label" parent="EnterField/Sex"]
+margin_right = 407.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 8 )
+text = "性别"
+align = 1
+valign = 1
+
+[node name="SexSelect" type="MenuButton" parent="EnterField/Sex"]
+margin_left = 411.0
+margin_right = 1022.0
+margin_bottom = 47.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.5
+custom_fonts/font = SubResource( 2 )
+button_mask = 7
+text = "请选择性别"
+items = [ "女", null, 0, false, false, 0, 0, null, "", false, "男", null, 0, false, false, 1, 0, null, "", false ]
+script = ExtResource( 1 )
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_top = 351.0
+margin_right = 1022.0
+margin_bottom = 411.0
 
 [node name="ConfirmButton" type="Button" parent="Buttons"]
 margin_right = 387.0
@@ -113,6 +201,7 @@ margin_bottom = 60.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 6 )
+button_mask = 5
 text = "CONFIRM"
 
 [node name="Control" type="Control" parent="Buttons"]
@@ -130,7 +219,13 @@ margin_bottom = 60.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 7 )
+button_mask = 5
 text = "BACK"
+
+[node name="U_ConfirmDialog" type="AcceptDialog" parent="."]
+margin_right = 200.0
+margin_bottom = 70.0
+window_title = "警告！"
 
 [connection signal="resized" from="." to="." method="_on_SigninPage_resized"]
 [connection signal="pressed" from="Buttons/ConfirmButton" to="." method="_on_ConfirmButton_pressed"]

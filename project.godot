@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "GridContainer",
+"class": "DataContainer",
+"language": "GDScript",
+"path": "res://addons/godot_table/DataContainer.gd"
+}, {
+"base": "GridContainer",
+"class": "HeaderContainer",
+"language": "GDScript",
+"path": "res://addons/godot_table/HeaderContainer.gd"
+} ]
+_global_script_class_icons={
+"DataContainer": "",
+"HeaderContainer": ""
+}
+
 [application]
 
 config/name="CatInfoManageSystem"
@@ -23,7 +39,21 @@ GlobalVar="*res://GlobalVar.tscn"
 
 window/dpi/allow_hidpi=true
 window/vsync/vsync_via_compositor=true
+window/per_pixel_transparency/allowed=true
+window/per_pixel_transparency/enabled=true
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/godot_table/plugin.cfg" )
+
+[global]
+
+font=false
+
+[gui]
+
+theme/custom_font="res://MiSans/DefaultFont.tres"
 
 [physics]
 
