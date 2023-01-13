@@ -1,4 +1,4 @@
-##猫咪信息管理平台 - CatInfoManageSystem
+## 猫咪信息管理平台 - CatInfoManageSystem
 
 一个数据库系统的软件，猫咪的信息管理平台
 
