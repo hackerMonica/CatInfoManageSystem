@@ -5,7 +5,8 @@ signal signinAccount
 var mess_y=0.25
 var grid_y=0.5
 var but_y=0.8
-
+var account
+var passWord
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,11 +36,29 @@ func login_callback(message: String):
 
 
 func _on_ConfirmButton_pressed():
-	GlobalVar.userName = $EnterField/User/UserName.text
-	GlobalVar.passWord = $EnterField/Pass/PassWord.text
+	account = $EnterField/User/UserAccount.text
+	passWord = $EnterField/Pass/PassWord.text.sha256_text()
+	if(!checkNull()):
+		return
+	GlobalVar.account = account
+	GlobalVar.passWord = passWord
 	GlobalVar.backend_login()
 	
+func checkNull():
+	$U_ConfirmDialog.window_title="出错"
+	if account == "":
+		$U_ConfirmDialog.dialog_text="账号为空，请输入账号！"
+		u_popup()
+		return false
+	if (passWord==""):
+		$U_ConfirmDialog.dialog_text="密码为空，请输入密码！"
+		u_popup()
+		return false
+	return true
 
+func u_popup():
+	var screen_size = get_viewport().get_visible_rect().size
+	$U_ConfirmDialog.popup_centered(Vector2(screen_size.x/4,screen_size.y/4))
 
 func _on_SigninButton_pressed():
 	emit_signal("signinAccount")

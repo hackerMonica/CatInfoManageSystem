@@ -1,0 +1,79 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://mianFunction/managePlaces/managePlaces.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot_table/Table.gd" type="Script" id=2]
+[ext_resource path="res://mianFunction/manageKinds/addKindWindow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MiSans/MiSans-Normal.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+font_data = ExtResource( 4 )
+
+[node name="Node" type="Node"]
+script = ExtResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.298039, 0.298039, 0.298039, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 368.0
+margin_bottom = 22.0
+text = "提示：点击表格行删除地点，点击下方按钮添加地点"
+align = 1
+valign = 1
+
+[node name="Table" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -998.0
+margin_bottom = -574.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
+column_headers = [ "种类编号", "种类名称" ]
+
+[node name="backButton" type="Button" parent="."]
+margin_left = 690.0
+margin_top = 517.0
+margin_right = 810.0
+margin_bottom = 567.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 2 )
+text = "返回"
+
+[node name="addKind" type="Button" parent="."]
+margin_left = 317.0
+margin_top = 519.0
+margin_right = 437.0
+margin_bottom = 569.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 3 )
+text = "添加地点"
+
+[node name="deleteConfirmDialog" type="ConfirmationDialog" parent="."]
+margin_right = 200.0
+margin_bottom = 74.0
+popup_exclusive = true
+window_title = "请确认..."
+
+[node name="AddDialog" parent="." instance=ExtResource( 3 )]
+margin_left = 383.0
+margin_top = 188.0
+margin_right = -400.0
+margin_bottom = -293.0
+window_title = "请输入地点名称"
+
+[connection signal="CLICK_ROW" from="Table" to="." method="_on_Table_CLICK_ROW"]
+[connection signal="resized" from="Table" to="." method="_on_Table_resized"]
+[connection signal="pressed" from="backButton" to="." method="_on_backButton_pressed"]
+[connection signal="pressed" from="addKind" to="." method="_on_addKind_pressed"]
+[connection signal="confirmed" from="deleteConfirmDialog" to="." method="_on_deleteConfirmDialog_confirmed"]
+[connection signal="about_to_show" from="AddDialog" to="." method="_on_AddDialog_about_to_show"]
+[connection signal="addEnter" from="AddDialog" to="." method="_on_AddDialog_addKind"]

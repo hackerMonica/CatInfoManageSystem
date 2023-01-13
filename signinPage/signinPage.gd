@@ -2,9 +2,9 @@ extends Control
 signal signinConfirm
 signal signinBack
 # Declare member variables here. Examples:
-var mess_y=0.20
+var mess_y=0.15
 var grid_y=0.5
-var but_y=0.8
+var but_y=0.85
 var account
 var passWord
 var passWord2
@@ -34,7 +34,8 @@ func resize():
 	$EnterField/Pass2.add_constant_override("separation",0.1*screen_size.x)
 	$EnterField/Name.add_constant_override("separation",0.1*screen_size.x)
 	$EnterField/Sex.add_constant_override("separation",0.1*screen_size.x)
-	$EnterField.add_constant_override("separation",0.025*screen_size.y)
+	$EnterField/Description.add_constant_override("separation",0.1*screen_size.x)
+	$EnterField.add_constant_override("separation",0.015*screen_size.y)
 
 func backend_callback(message: String):
 	if message == "passed":
@@ -46,14 +47,17 @@ func backend_callback(message: String):
 
 func _on_ConfirmButton_pressed():
 	account = $EnterField/Account/UserAccount.text
-	passWord = $EnterField/Pass/PassWord.text
-	passWord2 = $EnterField/Pass2/PassWord.text
-	name = $EnterField/Name/UserName.text
+	passWord = $EnterField/Pass/PassWord.text.sha256_text()
+	passWord2 = $EnterField/Pass2/PassWord.text.sha256_text()
+	username = $EnterField/Name/UserName.text
 	sex = $EnterField/Sex/SexSelect.get_id()
-	if(!checkPassWord()):
+	if(!(checkNull()&&checkPassWord())):
 		return
-	GlobalVar.userName = account
+	GlobalVar.account = account
 	GlobalVar.passWord = passWord
+	GlobalVar.username = username
+	GlobalVar.sex      = sex
+	GlobalVar.description = $EnterField/Description/Label.text
 	GlobalVar.backend_signup()
 #	emit_signal("signinConfirm")
 
@@ -66,16 +70,34 @@ func _on_SigninPage_resized():
 	resize()
 
 func checkNull():
-	
-	pass
+	$U_ConfirmDialog.window_title="出错"
+	if account == "":
+		$U_ConfirmDialog.dialog_text="账号为空，请输入账号！"
+		u_popup()
+		return false
+	if (passWord==""||passWord2==""):
+		$U_ConfirmDialog.dialog_text="密码为空，请输入密码！"
+		u_popup()
+		return false
+	if username == "":
+		$U_ConfirmDialog.dialog_text="昵称为空，请输入昵称！"
+		u_popup()
+		return false
+	if sex == -1:
+		$U_ConfirmDialog.dialog_text="性别尚未选择，请选择性别！"
+		u_popup()
+		return false
+	return true
 
 func checkPassWord():
 	if(passWord!=passWord2):
 		$U_ConfirmDialog.window_title="出错！"
-		# $U_ConfirmDialog.window_title="error!"
 		$U_ConfirmDialog.dialog_text="您两次输入的密码不同，请重新输入！"
-		var screen_size = get_viewport().get_visible_rect().size
-		$U_ConfirmDialog.popup_centered(Vector2(screen_size.x/4,screen_size.y/4))
+		u_popup()
 		return false
 	else:
 		return true
+
+func u_popup():
+	var screen_size = get_viewport().get_visible_rect().size
+	$U_ConfirmDialog.popup_centered(Vector2(screen_size.x/4,screen_size.y/4))

@@ -1,96 +1,117 @@
 extends Node
 var Difficulty
 var score = 0
-var have_boss = 0
 var GameLevel = 0 # 0, 1, 2 for easy normal hard
-var screen_size
 
 # Multi-player
-var is_multiplayer_mode = true
 var is_login = false
 
 # Signals
-signal update_multi_player_score(raw_data)
-signal backend_login_callback(message)
+signal backend_login_callback(message,errorCode)
 signal backend_signup_callback(message)
-signal backend_leaderboard_callback(data)
+signal backend_auto_login_callback(message)
 
-
-
-var userName: String
+var u_id:int
+var account: String
 var passWord: String
+var username: String
+var sex: int
+var description : String
+var is_admin :bool = false
 
 # Commands
-const GetAllUsers = 0
-const JoinUser = 1
-const StartMultiplayerGame = 2
-const ReportScore = 3
-const GetLeaderBoard = 4
-const Login = 5
-const Signup = 6
+const Login     :int = 0	
+const Signup    :int = 1
+const AutoLogin :int = 2
 
 # The URL we will connect to.
-export var websocket_url = "wss://trivialwar.eastonman.com/socket"
+export var http_url = "http://116.205.178.115/"
 #export var websocket_url = "ws://localhost:8080/socket"
 
 # Our WebSocketClient instance.
-var _client = WebSocketClient.new()
-
+var _client
+var client = HTTPClient.new()
 func _ready():
-	screen_size = get_viewport().get_visible_rect().size
-	print("Screen size" + str(screen_size))
-	
-	# Initiate connection to the given URL.
-	_client.connect("connection_established", self, "_connected")
-	_client.connect("data_received", self, "_on_data_received")
-	var err = _client.connect_to_url(websocket_url, [], false, ["Host: trivialwar.eastonman.com"])
-#	var err = _client.connect_to_url(websocket_url)
-	if err != OK:
-		print("Unable to connect")
-		set_process(false)
-	
-func _connected(proto = ""):
-	print("Connected to " + websocket_url)
-	
-	
-	
-func _on_data_received():
-	var data = _client.get_peer(1).get_packet().get_string_from_utf8()
-	print("Got data from server: ", data)
-	var packet = JSON.parse(data).result
-	data = packet['data']
-	if packet['type'] == GetLeaderBoard:
-		emit_signal("backend_leaderboard_callback", data)
-	elif packet['type'] == ReportScore:
-		emit_signal("update_multi_player_score", data)
-	elif packet['type'] == Login:
-		emit_signal("backend_login_callback", data)
-	elif packet['type'] == Signup:
-		emit_signal("backend_signup_callback", data)
-	else:
-		print("Undefined Type")
-	
+	_client = HTTPRequest.new()
+	add_child(_client)
+	_client.connect("request_completed", self, "_on_data_received")	
 
-func send_message(message):
-	_client.get_peer(1).put_packet(message.to_utf8())
+func _on_data_received(_result, response_code, _headers, body):
+	print(str(_result)+'\n')
+	print(str(response_code)+'\n')
+	print(str(_headers))
+	print(body.get_string_from_utf8()+"\n")
+	var json_return :JSONParseResult = JSON.parse(body.get_string_from_utf8())
+	if response_code!=200:
+		push_error("server connection problem")
+	if(json_return.error!=OK):
+		push_error(json_return.error_string)
+		return
+	var type : int = json_return.result['type']
+	var errorCode = json_return.result['error']
+	var value
+	match type:
+		Login:
+			# print(str(value)+"\n")
+			# print(str(value.u_password)+'\n')
+			# print(str(value['u_password'])+'\n')
+			# print(passWord+'\n')
+			if(errorCode==0):
+				value = json_return.result['value'][0]
+			if json_return.result['error']==1:
+				emit_signal("backend_login_callback",false,errorCode)
+			elif value['u_password'] == passWord:
+				# print("login successful")
+				emit_signal("backend_login_callback",true,errorCode)
+			else:
+				emit_signal("backend_login_callback",false,errorCode)
+		Signup:
+			value = json_return.result['value']
+			if value['result_code']==1:
+				print(value['result_message'])
+				emit_signal("backend_signup_callback",false)
+			elif value['result_code']==0:
+				emit_signal("backend_signup_callback",true)
+		AutoLogin:
+			if(errorCode!=0):
+				print("errorCode="+str(errorCode)+"\n")
+				emit_signal("backend_auto_login_callback",false)
+				return
+			value = json_return.result['value'][0]
+			if value['u_password']==passWord:
+				emit_signal("backend_auto_login_callback",true)
+			else:
+				emit_signal("backend_auto_login_callback",false)
+		_:
+			push_error("get wrong data type")
+
+
+func send_message(fun,body):
+	var headers = ["Content-Type: application/x-www-form-urlencoded","Content-Length:"+str(body.length())
+	,"User-Agent: Pirulo/1.0 (Godot)","Accept: */*"]
+	var error = _client.request(http_url+fun,headers,false,HTTPClient.METHOD_POST, body)
+	if error != OK:
+		push_error("An error occurred in the HTTP request.")
 	
 	
 # Backend communication func
 func backend_login():
-	var info = {"username": userName, "hash": passWord.sha256_text()}
-	var wsreq = {"type": Login, "param": JSON.print(info)}
-	send_message(JSON.print(wsreq))
+	var info = client.query_string_from_dict({"account": account})
+	# var wsreq = {"type": Login, "param": JSON.print(info)}
+	send_message("login",info)
 func backend_signup():
-	var info = {"username": userName, "hash": passWord.sha256_text()}
-	var wsreq = {"type": Signup, "param": JSON.print(info)}
-	send_message(JSON.print(wsreq))
-func backend_report_score():
-	var wsreq = {"type": GlobalVar.ReportScore, "param": str(GlobalVar.score)}
-	send_message(JSON.print(wsreq))
+	var info = client.query_string_from_dict({"account": account, "password":passWord,"username":username,"sex":str(sex), "description":description})
+	# var wsreq = {"type": Signup, "param": JSON.print(info)}
+	send_message("signup",info)
+func backend_auto_login():
+	var info = GlobalVar.client.query_string_from_dict({"account": account})
+	# var wsreq = {"type": Login, "param": JSON.print(info)}
+	send_message("autoLogin",info)
 	
-	
-func _process(delta):
-	_client.poll()
+func _process(_delta):
+#	_client.poll()
+	pass
 	
 func _exit_tree():
-	_client.disconnect_from_host()
+#	_client.disconnect_from_host()
+	pass

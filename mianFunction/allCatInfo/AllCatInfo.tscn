@@ -1,0 +1,77 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://addons/godot_table/Table.gd" type="Script" id=1]
+[ext_resource path="res://mianFunction/allCatInfo/allCatInfo.gd" type="Script" id=2]
+[ext_resource path="res://MiSans/MiSans-Normal.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://mianFunction/allCatInfo/popup_add_cat.tscn" type="PackedScene" id=4]
+[ext_resource path="res://mianFunction/allCatInfo/popup_cat_detail.tscn" type="PackedScene" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+font_data = ExtResource( 3 )
+
+[node name="AllCatInfo" type="Node"]
+script = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.298039, 0.298039, 0.298039, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 22.0
+text = "提示：点击表格可展开猫咪信息"
+align = 1
+valign = 1
+
+[node name="Table" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = 45.0
+margin_right = -45.0
+margin_bottom = -62.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
+column_headers = [ "猫咪编号", "名字", "性别", "种类", "颜色", "描述" ]
+
+[node name="Button" type="Button" parent="."]
+margin_left = 690.0
+margin_top = 517.0
+margin_right = 810.0
+margin_bottom = 567.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 2 )
+text = "返回"
+
+[node name="addCat" type="Button" parent="."]
+margin_left = 317.0
+margin_top = 519.0
+margin_right = 437.0
+margin_bottom = 569.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 3 )
+text = "添加猫咪"
+
+[node name="popup_add_cat" parent="." instance=ExtResource( 4 )]
+
+[node name="popup_cat_detail" parent="." instance=ExtResource( 5 )]
+margin_left = 6.0
+margin_top = 102.0
+margin_right = -581.0
+margin_bottom = -182.0
+
+[connection signal="CLICK_ROW" from="Table" to="." method="_on_Table_CLICK_ROW"]
+[connection signal="resized" from="Table" to="." method="_on_Table_resized"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="addCat" to="." method="_on_addCat_pressed"]
+[connection signal="hide" from="popup_add_cat" to="." method="_on_popup_add_cat_popup_hide"]
+[connection signal="popup_hide" from="popup_add_cat" to="." method="_on_popup_add_cat_popup_hide"]
+[connection signal="deleteComfirm" from="popup_cat_detail" to="." method="_on_deleteComfirm"]

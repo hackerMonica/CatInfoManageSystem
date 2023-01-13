@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://MiSans/MiSans-Normal.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://addons/godot_table/Table.gd" type="Script" id=2]
+[ext_resource path="res://mianFunction/plosition_card/allPositionCard.gd" type="Script" id=3]
+[ext_resource path="res://mianFunction/feed_card/feed_detail.tscn" type="PackedScene" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 25
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[node name="Node2D" type="Node"]
+script = ExtResource( 3 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1024.0
+margin_bottom = -600.0
+color = Color( 0.298039, 0.298039, 0.298039, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 22.0
+text = "位置打卡一览"
+align = 1
+valign = 1
+
+[node name="Button" type="Button" parent="."]
+margin_left = 690.0
+margin_top = 517.0
+margin_right = 810.0
+margin_bottom = 567.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 1 )
+text = "返回"
+
+[node name="Table" type="PanelContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1.0
+margin_bottom = -124.0
+custom_styles/panel = SubResource( 2 )
+script = ExtResource( 2 )
+column_headers = [ "用户", "猫咪", "时间", "地点", "描述" ]
+
+[node name="WindowDialog" parent="." instance=ExtResource( 4 )]
+margin_left = 135.0
+margin_top = 103.0
+margin_right = 840.0
+margin_bottom = 376.0
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="CLICK_ROW" from="Table" to="." method="_on_Table_CLICK_ROW"]
+[connection signal="resized" from="Table" to="." method="resize"]

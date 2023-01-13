@@ -9,31 +9,58 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "Calendar",
+"language": "GDScript",
+"path": "res://addons/calendar_button/class/Calendar.gd"
+}, {
+"base": "Reference",
+"class": "CalendarButtons",
+"language": "GDScript",
+"path": "res://addons/calendar_button/scripts/calendar_buttons.gd"
+}, {
 "base": "GridContainer",
 "class": "DataContainer",
 "language": "GDScript",
 "path": "res://addons/godot_table/DataContainer.gd"
 }, {
+"base": "Reference",
+"class": "Date",
+"language": "GDScript",
+"path": "res://addons/calendar_button/class/Date.gd"
+}, {
 "base": "GridContainer",
 "class": "HeaderContainer",
 "language": "GDScript",
 "path": "res://addons/godot_table/HeaderContainer.gd"
+}, {
+"base": "Reference",
+"class": "WindowRestrictor",
+"language": "GDScript",
+"path": "res://addons/calendar_button/scripts/window_restrictor.gd"
 } ]
 _global_script_class_icons={
+"Calendar": "",
+"CalendarButtons": "",
 "DataContainer": "",
-"HeaderContainer": ""
+"Date": "",
+"HeaderContainer": "",
+"WindowRestrictor": ""
 }
 
 [application]
 
 config/name="CatInfoManageSystem"
+run/main_scene="res://Main.tscn"
 run/low_processor_mode=true
 run/delta_sync_after_draw=true
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
 GlobalVar="*res://GlobalVar.tscn"
+Cursor="*res://cursor/cursor.gd"
 
 [display]
 
@@ -41,11 +68,12 @@ window/dpi/allow_hidpi=true
 window/vsync/vsync_via_compositor=true
 window/per_pixel_transparency/allowed=true
 window/per_pixel_transparency/enabled=true
+window/handheld/orientation="sensor"
 window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/godot_table/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/calendar_button/plugin.cfg", "res://addons/godot_table/plugin.cfg" )
 
 [global]
 

@@ -1,15 +1,20 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://mainPage/mainPage.gd" type="Script" id=1]
 [ext_resource path="res://MiSans/MiSans-Heavy.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://MiSans/MiSans-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://MiSans/MiSans-Normal.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://mianFunction/feed_card/add_feed_record.tscn" type="PackedScene" id=5]
+[ext_resource path="res://mianFunction/plosition_card/add_position_record.tscn" type="PackedScene" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 26
 font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=6]
-content_margin_top = 7.0
+content_margin_left = 50.0
+content_margin_right = 50.0
+content_margin_top = 20.0
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -22,12 +27,13 @@ corner_radius_bottom_left = 4
 corner_detail = 12
 expand_margin_left = 3.0
 expand_margin_right = 3.0
-expand_margin_top = 3.0
-expand_margin_bottom = 3.0
-anti_aliasing_size = 0.74
+anti_aliasing_size = 1.735
 
 [sub_resource type="StyleBoxFlat" id=5]
-content_margin_top = 5.0
+content_margin_left = 50.0
+content_margin_right = 50.0
+content_margin_top = 20.0
+content_margin_bottom = 20.0
 bg_color = Color( 0.431373, 0.431373, 0.431373, 1 )
 border_width_left = 1
 border_width_top = 1
@@ -41,15 +47,33 @@ corner_radius_bottom_left = 4
 corner_detail = 10
 expand_margin_left = 3.0
 expand_margin_right = 3.0
-expand_margin_top = 3.0
-expand_margin_bottom = 3.0
 anti_aliasing_size = 1.735
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id=10]
+
+[sub_resource type="DynamicFont" id=7]
+size = 35
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=9]
+size = 25
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 35
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 30
+font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 35
 font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=12]
+size = 35
+font_data = ExtResource( 4 )
 
 [node name="MainPage" type="TabContainer"]
 anchor_right = 1.0
@@ -61,49 +85,252 @@ custom_colors/font_color_fg = Color( 0, 0, 0, 1 )
 custom_fonts/font = SubResource( 1 )
 custom_styles/tab_fg = SubResource( 6 )
 custom_styles/tab_bg = SubResource( 5 )
-custom_styles/panel = SubResource( 3 )
-use_hidden_tabs_for_min_size = true
+custom_styles/panel = SubResource( 10 )
 script = ExtResource( 1 )
 
 [node name="用户信息" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 46.0
+margin_top = 76.0
 
-[node name="查询" type="Control" parent="."]
+[node name="user_description" type="HBoxContainer" parent="用户信息"]
+margin_top = 153.0
+margin_right = 1022.0
+margin_bottom = 294.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="Label" type="Label" parent="用户信息/user_description"]
+margin_right = 509.0
+margin_bottom = 141.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 7 )
+text = "补充信息"
+align = 1
+
+[node name="Label2" type="ScrollContainer" parent="用户信息/user_description"]
+margin_left = 513.0
+margin_right = 1022.0
+margin_bottom = 141.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="TextEdit" type="TextEdit" parent="用户信息/user_description/Label2"]
+margin_right = 509.0
+margin_bottom = 141.0
+size_flags_horizontal = 7
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 9 )
+text = "1231321231232132131231312312321312312321321321312312312312321312312321312312312321312313131233133131231231312213123123123312312"
+readonly = true
+virtual_keyboard_enabled = false
+smooth_scrolling = true
+wrap_enabled = true
+
+[node name="InfoField" type="VBoxContainer" parent="用户信息"]
+anchor_right = 0.998
+margin_right = 0.0479736
+margin_bottom = 525.0
+
+[node name="user_id" type="HBoxContainer" parent="用户信息/InfoField"]
+margin_right = 1022.0
+margin_bottom = 47.0
+
+[node name="Label" type="Label" parent="用户信息/InfoField/user_id"]
+margin_right = 509.0
+margin_bottom = 47.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 7 )
+text = "用户编号"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="用户信息/InfoField/user_id"]
+margin_left = 513.0
+margin_right = 1022.0
+margin_bottom = 47.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 8 )
+text = "default_id"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="user_name" type="HBoxContainer" parent="用户信息/InfoField"]
+margin_top = 51.0
+margin_right = 1022.0
+margin_bottom = 98.0
+
+[node name="Label" type="Label" parent="用户信息/InfoField/user_name"]
+margin_right = 509.0
+margin_bottom = 47.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 7 )
+text = "姓名"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="用户信息/InfoField/user_name"]
+margin_left = 513.0
+margin_right = 1022.0
+margin_bottom = 47.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 8 )
+text = "default_name"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="user_sex" type="HBoxContainer" parent="用户信息/InfoField"]
+margin_top = 102.0
+margin_right = 1022.0
+margin_bottom = 149.0
+
+[node name="Label" type="Label" parent="用户信息/InfoField/user_sex"]
+margin_right = 509.0
+margin_bottom = 47.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 7 )
+text = "性别"
+align = 1
+valign = 1
+
+[node name="Label2" type="Label" parent="用户信息/InfoField/user_sex"]
+margin_left = 513.0
+margin_right = 1022.0
+margin_bottom = 47.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = SubResource( 8 )
+text = "default_id"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="ToolButton" type="Button" parent="用户信息"]
+margin_top = -76.0
+margin_right = 72.0
+margin_bottom = -29.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 11 )
+text = "登出"
+
+[node name="猫咪信息" type="Control" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 54.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_top = 76.0
 
-[node name="searchCatInfo" type="Button" parent="查询"]
-margin_left = 551.0
-margin_top = 85.0
-margin_right = 806.0
-margin_bottom = 213.0
-custom_fonts/font = SubResource( 2 )
-button_mask = 7
-text = "猫咪查询"
-expand_icon = true
-
-[node name="allCatInfo" type="Button" parent="查询"]
-margin_left = 145.0
-margin_top = 87.0
-margin_right = 400.0
-margin_bottom = 215.0
+[node name="allCatInfo" type="Button" parent="猫咪信息"]
+margin_top = 233.0
+margin_right = 200.0
+margin_bottom = 359.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 7
+size_flags_vertical = 6
 custom_fonts/font = SubResource( 2 )
 button_mask = 7
 text = "猫咪概览"
+expand_icon = true
+
+[node name="searchCatInfo" type="Button" parent="猫咪信息"]
+margin_left = 512.0
+margin_top = 233.0
+margin_right = 712.0
+margin_bottom = 359.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 7
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 2 )
+button_mask = 7
+text = "猫咪查询"
 expand_icon = true
 
 [node name="打卡" type="Control" parent="."]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 54.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_top = 76.0
+
+[node name="feed_card" type="Button" parent="打卡"]
+margin_left = 182.0
+margin_top = 197.0
+margin_right = 404.0
+margin_bottom = 323.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 12 )
+text = "投喂打卡"
+
+[node name="position_card" type="Button" parent="打卡"]
+margin_left = 654.0
+margin_top = 214.0
+margin_right = 876.0
+margin_bottom = 340.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 12 )
+text = "猫咪位置打卡"
+
+[node name="all_feed" type="Button" parent="打卡"]
+margin_left = 181.0
+margin_top = 365.0
+margin_right = 403.0
+margin_bottom = 491.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 12 )
+text = "所有投喂打卡"
+
+[node name="all_position" type="Button" parent="打卡"]
+margin_left = 665.0
+margin_top = 362.0
+margin_right = 887.0
+margin_bottom = 488.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 12 )
+text = "所有位置打卡"
+
+[node name="addFeed_dialog" parent="打卡" instance=ExtResource( 5 )]
+
+[node name="addPosition_dialog" parent="打卡" instance=ExtResource( 6 )]
+
+[node name="维护" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 76.0
+
+[node name="kind" type="Button" parent="维护"]
+margin_left = 182.0
+margin_top = 197.0
+margin_right = 382.0
+margin_bottom = 323.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 12 )
+text = "管理猫咪种类"
+
+[node name="place" type="Button" parent="维护"]
+margin_left = 654.0
+margin_top = 214.0
+margin_right = 876.0
+margin_bottom = 340.0
+mouse_default_cursor_shape = 2
+custom_fonts/font = SubResource( 12 )
+text = "管理地点"
+
+[connection signal="resized" from="." to="." method="_on_MainPage_resized"]
+[connection signal="pressed" from="用户信息/ToolButton" to="." method="_on_ToolButton_pressed"]
+[connection signal="pressed" from="猫咪信息/allCatInfo" to="." method="_on_allCatInfo_pressed"]
+[connection signal="pressed" from="猫咪信息/searchCatInfo" to="." method="_on_searchCatInfo_pressed"]
+[connection signal="pressed" from="打卡/feed_card" to="." method="_on_feed_card_pressed"]
+[connection signal="pressed" from="打卡/position_card" to="." method="_on_position_card_pressed"]
+[connection signal="pressed" from="打卡/all_feed" to="." method="_on_all_feed_pressed"]
+[connection signal="pressed" from="打卡/all_position" to="." method="_on_all_position_pressed"]
+[connection signal="pressed" from="维护/kind" to="." method="_on_kind_pressed"]
+[connection signal="pressed" from="维护/place" to="." method="_on_place_pressed"]
